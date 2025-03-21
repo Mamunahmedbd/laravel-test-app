@@ -43,7 +43,7 @@ _Preview: UI/UX Design Principles Mind Map with color-coded sections and dotted 
 - **Backend**
 
     - Laravel (PHP Framework)
-    - MySQL Database
+    - Postgres Database
 
 - **Frontend**
     - React
@@ -58,7 +58,7 @@ _Preview: UI/UX Design Principles Mind Map with color-coded sections and dotted 
 - PHP >= 8.1
 - Node.js >= 16
 - Composer
-- MySQL
+- Postgres
 
 ### Installation
 
