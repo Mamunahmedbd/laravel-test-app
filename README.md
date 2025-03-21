@@ -93,85 +93,44 @@ _Preview: UI/UX Design Principles Mind Map with color-coded sections and dotted 
     php artisan key:generate
     ```
 
-6.  Configure your database in `.env` file:
+6.  Configure your database in `.env` file. Here's a template with the essential configurations:
 
-        ```
-
+    ```env
+    # Application
     APP_NAME=Laravel
     APP_ENV=local
-    APP_KEY=base64:c3PJa6loMajFliVxYFb5oa9lvRBjXNN/zUc6yzfxAiI=
+    APP_KEY=
     APP_DEBUG=true
     APP_URL=http://localhost
+    APP_LOCALE=en
 
-APP_LOCALE=en
-APP_FALLBACK_LOCALE=en
-APP_FAKER_LOCALE=en_US
+    # Database
+    DB_CONNECTION=pgsql
+    DB_HOST=127.0.0.1
+    DB_PORT=5432
+    DB_DATABASE=your_database
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
 
-APP_MAINTENANCE_DRIVER=file
+    # Session and Cache
+    SESSION_DRIVER=file
+    SESSION_LIFETIME=120
+    CACHE_STORE=database
 
-# APP_MAINTENANCE_STORE=database
+    # Queue and Broadcasting
+    QUEUE_CONNECTION=database
+    BROADCAST_CONNECTION=log
 
-PHP_CLI_SERVER_WORKERS=4
+    # Mail
+    MAIL_MAILER=log
+    MAIL_FROM_ADDRESS="hello@example.com"
+    MAIL_FROM_NAME="${APP_NAME}"
 
-BCRYPT_ROUNDS=12
+    # Vite
+    VITE_APP_NAME="${APP_NAME}"
+    ```
 
-LOG_CHANNEL=stack
-LOG_STACK=single
-LOG_DEPRECATIONS_CHANNEL=null
-LOG_LEVEL=debug
-
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=ai_app
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-
-SESSION_DRIVER=file
-SESSION_LIFETIME=120
-SESSION_ENCRYPT=false
-SESSION_PATH=/
-SESSION_DOMAIN=null
-
-BROADCAST_CONNECTION=log
-FILESYSTEM_DISK=local
-QUEUE_CONNECTION=database
-
-CACHE_STORE=database
-
-# CACHE_PREFIX=
-
-MEMCACHED_HOST=127.0.0.1
-
-REDIS_CLIENT=phpredis
-REDIS_HOST=127.0.0.1
-REDIS_PASSWORD=null
-REDIS_PORT=6379
-
-MAIL_MAILER=log
-MAIL_SCHEME=null
-MAIL_HOST=127.0.0.1
-MAIL_PORT=2525
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_FROM_ADDRESS="hello@example.com"
-MAIL_FROM_NAME="${APP_NAME}"
-
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_DEFAULT_REGION=us-east-1
-AWS_BUCKET=
-AWS_USE_PATH_STYLE_ENDPOINT=false
-
-VITE_APP_NAME="${APP_NAME}"
-
-OPENAI_API_KEY=
-OPENAI_ORGANIZATION=
-OPENAI_SSL_VERIFY=false
-OPENAI_SSL_CERT_PATH=
-```
-
-7. Run migrations:
+7.  Run migrations:
     ```bash
     php artisan migrate
     ```
