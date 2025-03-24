@@ -1,119 +1,10 @@
 import MindMapForm from '@/components/MindMap/MindMapForm';
 import MindMapViewer from '@/components/MindMap/MindMapViewer';
+import { useMindMapStore } from '@/store/useMindMapStore';
 import { FormData, MindMap as MindMapType } from '@/types/mindmap';
+import { ArrowsPointingInIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
-
-const initialNodes = [
-    {
-        id: 'horizontal-1',
-        sourcePosition: 'right',
-        type: 'input',
-        data: { label: 'Input' },
-        position: { x: 0, y: 80 },
-    },
-    {
-        id: 'horizontal-2',
-        sourcePosition: 'right',
-        targetPosition: 'left',
-        data: { label: 'A Node' },
-        position: { x: 250, y: 0 },
-    },
-    {
-        id: 'horizontal-3',
-        sourcePosition: 'right',
-        targetPosition: 'left',
-        data: { label: 'Node 3' },
-        position: { x: 250, y: 160 },
-    },
-    {
-        id: 'horizontal-4',
-        sourcePosition: 'right',
-        targetPosition: 'left',
-        data: { label: 'Node 4' },
-        position: { x: 500, y: 0 },
-    },
-    {
-        id: 'horizontal-5',
-        sourcePosition: 'top',
-        targetPosition: 'bottom',
-        data: { label: 'Node 5' },
-        position: { x: 500, y: 100 },
-    },
-    {
-        id: 'horizontal-6',
-        sourcePosition: 'bottom',
-        targetPosition: 'top',
-        data: { label: 'Node 6' },
-        position: { x: 500, y: 230 },
-    },
-    {
-        id: 'horizontal-7',
-        sourcePosition: 'right',
-        targetPosition: 'left',
-        data: { label: 'Node 7' },
-        position: { x: 750, y: 50 },
-    },
-    {
-        id: 'horizontal-8',
-        sourcePosition: 'right',
-        targetPosition: 'left',
-        data: { label: 'Node 8' },
-        position: { x: 750, y: 300 },
-    },
-];
-
-const initialEdges = [
-    {
-        id: 'horizontal-e1-2',
-        source: 'horizontal-1',
-        type: 'smoothstep',
-        target: 'horizontal-2',
-        animated: true,
-    },
-    {
-        id: 'horizontal-e1-3',
-        source: 'horizontal-1',
-        type: 'smoothstep',
-        target: 'horizontal-3',
-        animated: true,
-    },
-    {
-        id: 'horizontal-e1-4',
-        source: 'horizontal-2',
-        type: 'smoothstep',
-        target: 'horizontal-4',
-        label: 'edge label',
-    },
-    {
-        id: 'horizontal-e3-5',
-        source: 'horizontal-3',
-        type: 'smoothstep',
-        target: 'horizontal-5',
-        animated: true,
-    },
-    {
-        id: 'horizontal-e3-6',
-        source: 'horizontal-3',
-        type: 'smoothstep',
-        target: 'horizontal-6',
-        animated: true,
-    },
-    {
-        id: 'horizontal-e5-7',
-        source: 'horizontal-5',
-        type: 'smoothstep',
-        target: 'horizontal-7',
-        animated: true,
-    },
-    {
-        id: 'horizontal-e6-8',
-        source: 'horizontal-6',
-        type: 'smoothstep',
-        target: 'horizontal-8',
-        animated: true,
-    },
-];
 
 export default function MindMap() {
     const [mindMapData, setMindMapData] = useState<MindMapType | null>({
@@ -151,26 +42,47 @@ export default function MindMap() {
         },
     });
 
+    const { isExpanded, toggleExpand } = useMindMapStore();
+
     const handleMindMapGenerated = (data: MindMapType) => {
         setMindMapData(data);
     };
 
     return (
-        <div className="w-full">
+        <div className="px-4 py-8">
             <Head title="Mind Map Generator" />
-            <div className="flex w-full">
-                <div className="w-full">
-                    <div className="overflow-hidden bg-white shadow-sm">
-                        <div className="min-h-screen p-6 text-gray-900">
-                            <h1 className="mb-6 text-2xl font-semibold">Mind Map Generator</h1>
-                            <div className="grid min-h-[calc(100vh-8rem)] grid-cols-1 gap-6 lg:grid-cols-3">
-                                <div className="col-span-1 rounded-lg bg-gray-50">
-                                    <MindMapForm onMindMapGenerated={handleMindMapGenerated} formData={formData} setFormData={setFormData} />
-                                </div>
-                                <div className="col-span-2 rounded-lg bg-gray-50">{mindMapData && <MindMapViewer mindMap={mindMapData} />}</div>
-                            </div>
-                        </div>
-                    </div>
+            <div className="flex min-h-[calc(100vh-4rem)] gap-6 transition-all duration-500 ease-in-out">
+                {/* Form Section */}
+                <div
+                    className={`rounded-lg bg-gray-50 transition-all duration-300 ease-in-out ${
+                        isExpanded ? 'w-0 overflow-hidden opacity-0' : 'w-full opacity-100 lg:w-1/3'
+                    }`}
+                >
+                    <MindMapForm onMindMapGenerated={handleMindMapGenerated} formData={formData} setFormData={setFormData} />
+                </div>
+
+                {/* Viewer Section */}
+                <div
+                    className={`relative flex-1 rounded-lg bg-gray-50 transition-all duration-300 ease-in-out`}
+                    style={{
+                        width: isExpanded ? '100%' : '66.666%',
+                        opacity: isExpanded ? 1 : 0.9,
+                    }}
+                >
+                    {mindMapData && <MindMapViewer mindMap={mindMapData} />}
+
+                    {/* Expand/Collapse Button */}
+                    <button
+                        onClick={toggleExpand}
+                        className="absolute top-4 right-4 cursor-pointer rounded-full bg-white p-2 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:bg-gray-100"
+                        title={isExpanded ? 'Collapse' : 'Expand'}
+                    >
+                        {isExpanded ? (
+                            <ArrowsPointingInIcon className="h-5 w-5 text-gray-600" />
+                        ) : (
+                            <ArrowsPointingOutIcon className="h-5 w-5 text-gray-600" />
+                        )}
+                    </button>
                 </div>
             </div>
         </div>

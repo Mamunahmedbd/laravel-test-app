@@ -99,7 +99,7 @@ export default function MindMapForm({ onMindMapGenerated, formData, setFormData 
                     id="content"
                     value={formData.content}
                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                    rows={10}
+                    rows={15}
                     className="block w-full rounded-lg border-gray-200 bg-white px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-gray-200 focus:ring-2 focus:ring-gray-200 focus:ring-offset-2"
                     placeholder="Enter your content here..."
                     required

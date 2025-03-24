@@ -129,7 +129,7 @@ const Flow = ({ mindMap }: { mindMap: MindMap }) => {
     }
 
     return (
-        <div className="h-[800px] w-full">
+        <div className="h-full w-full">
             <ReactFlowComponent
                 nodes={nodes}
                 edges={edges}
